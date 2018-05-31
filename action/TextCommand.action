@@ -1,0 +1,19 @@
+# goal definition
+string text_command
+string id
+---
+# result definition
+int8 status
+string text_command
+string id
+string error_message
+string result_data
+int8 STATUS_UNKNOWN = 0
+int8 STATUS_OK = 10
+int8 STATUS_ERROR = 30
+
+---
+# feedback
+string text_command
+string id
+float64 progress 

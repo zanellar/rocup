@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Followng Launche File instantiates Robot Comau Smart Six using 'comau_smart_six' as prefix of every
+    sub-module, like TF_names or JointNames. Change robot name in XACRO file to remove this behaviour -->
+    <arg name="robot_name" default="bonmetc60"/>
+    <arg name="viz" default="false"/>
+    <arg name="ik_service" default="true"/>
+
+    <group ns="$(arg robot_name)">
+
+        <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find rocup)/urdf/bonmet/bonmetc60.urdf.xacro'"/>
+
+        <param name="use_gui" value="true"/>
+
+
+        <node name="bonmet_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+            <param name="publish_frequency" value="100"/>
+            <param name="aatf_prefix" value="$(arg robot_name)"/>
+            <param name="joint_states" value="/bonmetc60/joint_states"/>
+        </node>
+
+        <group if="$(arg ik_service)">
+            <node pkg="rocup" type="bonmet_ik_service" output="screen" name="ik_service_node">
+                <param name="robot_name" value="$(arg robot_name)"/>
+            </node>
+        </group>
+
+    </group>
+
+
+</launch>

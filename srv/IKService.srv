@@ -1,0 +1,13 @@
+geometry_msgs/Pose target_pose
+std_msgs/Float64MultiArray q_in
+int32 type
+---
+int8 STATUS_OK=0
+int8 STATUS_ERROR_GRADIENT_SMALL=-1
+int8 STATUS_ERROR_JOINT_INCREMENT_SMALL=-2
+int8 STATUS_ERROR_MAX_ITERATIONS_REACHED=-3
+int8 STATUS_ERROR_UNKNOWN=1
+std_msgs/Float64MultiArray q_out
+int8 status
+
+

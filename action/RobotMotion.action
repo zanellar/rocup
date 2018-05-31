@@ -1,0 +1,33 @@
+# goal definition
+string robot_command
+---
+# result definition
+bool success
+string executed_command
+geometry_msgs/Pose pose
+std_msgs/Float64MultiArray q
+float64 q_target_distance 
+int8 error
+int8 NO_ERROR = 0
+int8 ERROR_UNKNOWN = -1
+int8 ERROR_NO_COMMAND = -2
+int8 ERROR_NO_TRAJECTORY = -3
+int8 ERROR_START_MOVING = -4
+int8 ERROR_END_TRAJECTORY = -5
+int8 ERROR_ROBOT_ALARM = -6
+int8 ERROR_COMMAND_CONFLICT = -7
+---
+# feedback
+string current_state
+string executing_command
+string text
+float64 progress  
+int8 status
+int8 UNKNOWN_STATUS = 0
+int8 MOVING = 1
+int8 STEADY = 2
+int8 WAITING_FOR_COMMAND = 3	
+int8 WAITING_FOR_MOVING = 4	
+int8 warning
+int8 NO_WARNING = 0
+int8 WARNING_TRAJACTORY_TIME_OUT = -1

@@ -1,0 +1,9 @@
+<launch>
+    <param name="goal" value="41" />
+    <node name="path_example" pkg="rocup" type="path_from_tf.py" output="screen">
+        <param name="path_name" value="example_tf" />
+        <param name="base_frame" value="world" />
+        <param name="target" value="world" />
+        <param name="path_file" value="$(find rocup)/data/tf_paths/example_path.txt" />
+    </node>
+</launch>

@@ -1,0 +1,7 @@
+int8 source
+int8 TARGET_FROM_TRAJECTORY_PLANNER=1
+int8 TARGET_FROM_EXTERNAL_FEEDBACK=2
+
+---
+int8 status
+int8 STATUS_OK = 0

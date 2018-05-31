@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+  xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" xmlns:xacro="http://ros.org/wiki/xacro"
+  name="comau_smart_six">
+
+  <xacro:property name="robot_prefix" value="comau_smart_six/" />
+
+
+  <link name="${robot_prefix}base_link">
+  </link>
+
+  <link name="${robot_prefix}link1">
+  </link>
+
+  <joint name="${robot_prefix}base_to_link1" type="continuous">
+    <axis xyz="0 0 1" />
+    <parent link="${robot_prefix}base_link" />
+    <child link="${robot_prefix}link1" />
+    <origin xyz="0 0 0" rpy="-3.14159 0 0" />
+    <limit effort="1000" velocity="1000" lower="-2.9670" upper="2.9670" />
+    <!-- -170,+170 -->
+  </joint>
+
+  <link name="${robot_prefix}link2">
+  </link>
+
+  <joint name="${robot_prefix}link1_to_link2" type="continuous">
+    <axis xyz="0 0 1" />
+    <parent link="${robot_prefix}link1" />
+    <child link="${robot_prefix}link2" />
+    <origin xyz="0.15 0 0" rpy="1.57075 1.57075 0" />
+    <limit effort="1000" velocity="1000" lower="-1.4835" upper="2.7052" />
+    <!-- -85,+155 -->
+  </joint>
+
+  <link name="${robot_prefix}link3">
+  </link>
+
+  <joint name="${robot_prefix}link2_to_link3" type="continuous">
+    <axis xyz="0 0 1" />
+    <parent link="${robot_prefix}link2" />
+    <child link="${robot_prefix}link3" />
+    <origin xyz="0.59 0 0" rpy="-3.14159 0 -1.57075" />
+    <limit effort="1000" velocity="1000" lower="-2.9670" upper="0.0" />
+    <!-- -170,+0 -->
+  </joint>
+
+  <link name="${robot_prefix}link4">
+  </link>
+
+  <joint name="${robot_prefix}link3_to_link4" type="continuous">
+    <axis xyz="0 0 1" />
+    <parent link="${robot_prefix}link3" />
+    <child link="${robot_prefix}link4" />
+    <origin xyz="0.13 -0.64707 0" rpy="-1.57075 0 0" />
+  </joint>
+
+  <link name="${robot_prefix}link5">
+  </link>
+
+  <joint name="${robot_prefix}link4_to_link5" type="continuous">
+    <axis xyz="0 0 1" />
+    <parent link="${robot_prefix}link4" />
+    <child link="${robot_prefix}link5" />
+    <origin xyz="0 0 0" rpy="-1.57075 0 0" />
+    <limit effort="1000" velocity="1000" lower="-2.2689" upper="2.2689" />
+    <!-- -130,+130 -->
+  </joint>
+
+  <link name="${robot_prefix}link6">
+  </link>
+
+  <joint name="${robot_prefix}link5_to_link6" type="continuous">
+    <axis xyz="0 0 1" />
+    <parent link="${robot_prefix}link5" />
+    <child link="${robot_prefix}link6" />
+    <origin xyz="0 0 0" rpy="1.57075 0 0" />
+  </joint>
+
+  <!--
+  <link name="${robot_prefix}tool">
+  </link>
+
+  <joint name="${robot_prefix}link6_to_tool" type="continuous">
+    <axis xyz="0 0 1" />
+    <parent link="${robot_prefix}link6" />
+    <child link="${robot_prefix}tool" />
+    <origin xyz="0 0 -0.085" rpy="0 0 0" />
+  </joint>
+-->
+</robot>

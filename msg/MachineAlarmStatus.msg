@@ -1,0 +1,18 @@
+uint16 alarm
+uint16 state
+bool reset_required
+
+uint16 ALARM_NONE = 0
+
+uint16 ALARM_DRIVEOFF = 1
+uint16 ALARM_FOLLOWING = 2
+uint16 ALARM_USER = 4
+uint16 ALARM_JOINT_LIMIT = 8
+uint16 ALARM_SETPOINT_LIMIT = 16
+uint16 ALARM_DISTANCE_LIMIT = 32
+uint16 ALARM_POWER = 128
+
+uint16 STATE_NONE = 0
+uint16 STATE_INIT = 1
+uint16 STATE_RUN = 2
+uint16 STATE_ALARM = 4

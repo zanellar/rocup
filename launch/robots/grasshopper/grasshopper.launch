@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- STATIC TF PUBLISHER NODES -->
+    <node pkg="tf" type="static_transform_publisher" name="base_broadcaster" args="0 0 0 0 0 0 1 world grasshopper/base_link 10" />
+    <!-- GRASSHOPPER IK SERVICES -->
+    <include file="$(find rocup)launch/grasshopper/grasshopper_real_stack.launch" />
+    <!-- World Frame tf ID Name -->
+    <param name="WORLD_FRAME_ID" value="world"/>
+    <!-- Robot -->
+    <arg name="robot_name" default="grasshopper"/>
+    <!--Robot ID Names -->
+    <param name="GRASSHOPPER_NAME" value="$(arg robot_name)"/>
+    <!-- Nodes Frequency  -->
+    <param name="$(arg robot_name)/TRAJECTORY_STEPS" value="1"/>
+    <!-- Trajectories Time -->
+    <param name="$(arg robot_name)/TRAJECTORY_TIME" value="5"/>
+    <!-- Nodes Frequency  -->
+    <param name="$(arg robot_name)/NODE_FREQUENCY" value="300"/>
+    <!-- MONGODB -->
+    <include file="$(find mongodb_store)/launch/mongodb_store.launch">
+        <arg name="db_path" value="/opt/ros/mongodb_store/" />
+    </include>
+    <!-- JOYSTICK -->
+    <node name="joy_node" pkg="joy" type="joy_node" output="screen"/>
+    <!-- TF -->
+    <node name="tf_manager" pkg="rocup" type="tf_manager.py" output="screen" />
+    <node name="tf_filter_supervisor" pkg="rocup" type="tf_filter.py" output="screen" />
+</launch>
