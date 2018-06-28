@@ -30,10 +30,10 @@ class Parameters:
         "BONMET_NAME":                  "bonmetc60"
 
         #⬢⬢⬢⬢⬢➤ Sensors
-        # TODO
+        # ... add here the sensors names
 
-        #⬢⬢⬢⬢⬢➤ Actions
-        # TODO
+        #⬢⬢⬢⬢⬢➤ Subtasks
+        # ... add here the subtasks names
     }
 
     default_params = {
@@ -47,8 +47,8 @@ class Parameters:
         elements["BONMET_NAME"] + "/TRAJECTORY_POINTS":    None,       # []
         elements["COMAU_NAME"] + "/TOOLS":              {
             "none": [0, 0, 0, 0, 0, 0, 1],
-            "gripper": [0, 0, -0.2965, 0, 0, 0, 1],
-            "camera": [-0.003263, 0.141871, -0.216756, -3.404999, 0.040769, 0.006786, -0.052411],
+            "gripper": [0, 0, -0.2995, 0, 0, 0, 1],
+            "camera": [-0.000825, -0.129085, -0.168954, 0.018076, 1.000534, 0.007385, 0.003956],
             "dynamic": [0, 0, 0, 0, 0, 0, 1],
         },
 
@@ -89,12 +89,13 @@ class Parameters:
 
 
         # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ SENSORS ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
-        # TODO
+        # ... add here the sensors parametrs by name
 
-        # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ ACTIONS ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇  they may be "subtasks"
-        # TODO
+        # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ SUBTASKS ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
+        # ... add here the subtasks parametrs by name
 
-        # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ OTHERS ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
+        # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ OTHERS ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
+        # ... add here the system parametrs
         "WORLD_FRAME_ID":               "world"
     }
 

@@ -47,7 +47,7 @@ base_frame = None
 while base_frame is None:
     base_frame = node.retrieveTransform("tf_storage_scan_center", "/{}/base_link".format(robot_name), -1)
 
-print("Chessboard TF FOUND!!!!!!!!")
+print("CENTRAL TF FOUND!!!!!!!!")
 
 matrix_cube = getTfMatrix(robot_name, scan_name, base_frame)
 

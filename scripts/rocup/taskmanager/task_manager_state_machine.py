@@ -29,6 +29,7 @@ class SFMachineTaskManagerDefinition(object):
         self.task_end = False
         self.last_action_success = False
         self.repete = True
+        self.keep_tray_trajectory = False
 
         self.robot_name_list = []
         self.robot_proxy_client_dict = {}
@@ -89,7 +90,7 @@ class SFMachineTaskManagerDefinition(object):
             self.last_action_success = False
         succ = "\033[91m" + "\033[92m" * self.last_action_success + "\033[1m\033[4m{}\033[0m".format(self.last_action_success)
         print("robot: \033[1m\033[4m\033[94m{}\033[0m >>> SUCCESS = {}".format(sent_command, succ))
-        self.next()  # TODO andiamo sempre avanti nell'esecuzione così!!!! Dovremmo fare una condizione su "self.last_action_success"
+        self.next()  # TODO andiamo sempre avanti nell'esecuzione così!!!! Dovremmo fare una condizione su "self.last_action_success and self.keep_tray_trajectory"
 
     def sensor_done_callback(self, response_command):
         if response_command:
@@ -195,6 +196,9 @@ class SFMachineTaskManagerDefinition(object):
                 if param == "repete":
                     self.repete = not (setting.lower() == "false")
                     print("repete={}".format(self.repete))
+                elif param == "robotfault":
+                    self.keep_tray_trajectory = not (setting == "tryagain")
+                    print("robot fault->{}".format(self.keep_tray_trajectory))
                 self.next()
         else:
             Logger.error("Subject not recognized: {}".format(subject))

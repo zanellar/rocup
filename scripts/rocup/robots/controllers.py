@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 import rospy
 from sensor_msgs.msg import JointState
 from sensor_msgs.msg import JointState
@@ -13,16 +15,16 @@ from superros.logger import Logger
 
 from rocup.srv import IKService, IKServiceResponse
 from rocup.msg import RobotFollowStatus
+from rocup.param.global_parameters import Parameters
 
 
-""" GLOBAL PARAMETERS """
+""" CONSTANTS """
 ROBOT_CONTROLLER_PUBLISHER_NAME = "joint_states"
 ROBOT_CONTROLLER_SUBSCRIBER_NAME = "joint_command"
 ROBOT_CONTROLLER_REPLACE_ROBOT_NAME_PREFIX_IN_JOINTS = True
-ROBOT_CONTROLLER_MOVING_POSITION_EPSILON = 0.001
 ROBOT_CONTROLLER_MOVING_ROTATION_EPSILON = 0.002
 ROBOT_DEFAULT_IK_SERVICE_SUFFIX = "/ik_service_node/ik_service"
-ROBOTS_DEFAULT_WORLD_NAME = "world"
+ROBOTS_DEFAULT_WORLD_NAME = Parameters.get("WORLD_FRAME_ID")
 ROBOTS_DEBUG_MODE = True
 
 

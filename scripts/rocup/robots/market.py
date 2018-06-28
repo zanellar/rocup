@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 import rospy
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Header
@@ -16,6 +18,8 @@ from rocup.srv import IKService, IKServiceResponse
 """ GLOBAL PARAMETERS """
 
 ROBOT_MARKET_LIBRARY = {
+
+    #⬢⬢⬢⬢⬢➤ COMAU
     "comau_smart_six": {
         "robot_name": "comau_smart_six",
         "joint_names": [
@@ -44,6 +48,8 @@ ROBOT_MARKET_LIBRARY = {
         },
         "auto_ik_service": True
     },
+
+    #⬢⬢⬢⬢⬢➤ GRASSHOPPER
     "grasshopper": {
         "robot_name": "grasshopper",
         "joint_names": [
@@ -67,11 +73,13 @@ ROBOT_MARKET_LIBRARY = {
             "default": [0, 0, 0, 0, 0, 0, 1]
         },
         "parameters": {
-            "joints_tollerance": 0.02,  # da modificare
-            "repeatability": 0.00005  # da modificare
+            "joints_tollerance": 0.02,
+            "repeatability": 0.00005
         },
         "auto_ik_service": True
     },
+
+    #⬢⬢⬢⬢⬢➤ SCHUNK
     "schunk_pg70": {
         "robot_name": "schunk_pg70",
         "joint_names": [
@@ -96,6 +104,8 @@ ROBOT_MARKET_LIBRARY = {
         },
         "auto_ik_service": True
     },
+
+    #⬢⬢⬢⬢⬢➤ BONMET
     "bonmetc60": {
         "robot_name": "bonmetc60",
         "joint_names": [
@@ -119,8 +129,8 @@ ROBOT_MARKET_LIBRARY = {
             "default": [0, 0, 0, 0, 0, 0, 1]
         },
         "parameters": {
-            "joints_tollerance": 0.008,  # dove li prendo??????
-            "repeatability": 0.00006  # dove li prendo??????
+            "joints_tollerance": 0.008,
+            "repeatability": 0.00006
         },
         "auto_ik_service": True
     }

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# This Python file uses the following encoding: utf-8
+# -*- encoding: utf-8 -*-
 
 import pkgutil
 import rospy
@@ -50,10 +50,6 @@ WORLD_FRAME_ID = Parameters.get("WORLD_FRAME_ID")
 
 
 class SFMachineRobotDefinition(object):
-
-    # TOOL = PyKDL.Frame()
-    # STANDARD_ELEVATION = PyKDL.Frame()
-    # STANDARD_ELEVATION.p.z(0.6)
 
     def __init__(self, robot):
         # tf Listener
