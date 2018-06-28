@@ -84,7 +84,11 @@ tmux kill-session
 ```
 
 
+<<<<<<< HEAD
 #TODOs:  
+=======
+# TODOs:  
+>>>>>>> 922e5e460736b7ae483db6d68f675a9a2dc1c604
 - remove unused import in all the files
 - remove all the robots (leave only comau)
 - search all the TODO in code
