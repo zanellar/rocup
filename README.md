@@ -93,6 +93,7 @@ tmux kill-session
 - global_parametrs in a json file
 - instruction list in a file (json or txt)
 - direct_motion must be generalized better
+- create a json with the dictionary of controllers avaiable (now it's hard coded in direcr_motion init)
 - trajectory (points, time, hz) in robot_motion_state_machine 
 - integrate global_error_list in the rest of the project
 - simplify procedure to add a new robot (maybe with gui)

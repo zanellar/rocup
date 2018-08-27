@@ -40,12 +40,15 @@ class SpringForceController(object):
 
     def __init__(self, robot_name="", params_dict={}):
         self.robot_name = robot_name
+        self.is_active = False
+        self.done = False
 
         # Controller Parameters
         if params_dict == {} or params_dict == None:
             params_dict = self.DEFAULT_PARAMETERS
 
         self.params = params_dict
+
         self.translation_mag = self._param("translation_mag", params_dict)
         self.rotation_mag = self._param("rotation_mag", params_dict)
         self.thresholds = self._param("thresholds", params_dict)
@@ -94,12 +97,15 @@ class SpringForceController(object):
         return self.params
 
     def reset(self):
+        self.is_active = False
+        self.done = False
         thr = self._estimateDisturbance(20) * 1.10
         self.setParameters({"thresholds": thr})
         Logger.warning("thresholds={}".format(thr))
 
     def start(self, data):
-        pass
+        self.is_active = True
+        self.done = False
 
     def output(self, data):
         if "atift" in data.keys():
@@ -107,8 +113,17 @@ class SpringForceController(object):
             self.forceSensor.update(self.last_force_msg)
 
         current_tf = data["current_tf"]
-        Tr = self.forceSensor.output()
-        target_tf = current_tf * Tr
+        target_tf = data["target_tf"]
+
+        if self.is_active:
+
+            if self.done:
+                print "\n\n\n CONTROLLER STOP \n\n\n"
+                self.is_active = False
+                return target_tf
+
+            Tr = self.forceSensor.output()
+            target_tf = current_tf * Tr
 
         return target_tf
 
@@ -132,6 +147,8 @@ class DampedForwardForceController(object):
 
     def __init__(self, robot_name="", params_dict={}):
         self.robot_name = robot_name
+        self.is_active = False
+        self.done = False
 
         # Controller Parameters
         if params_dict == {} or params_dict == None:
@@ -193,6 +210,8 @@ class DampedForwardForceController(object):
         return self.params
 
     def reset(self):
+        self.is_active = False
+        self.done = False
         # self.velocity = 0
         # self.axis = PyKDL.Vector()
         thr = self._estimateDisturbance(20) * 1.3
@@ -200,6 +219,8 @@ class DampedForwardForceController(object):
         Logger.warning("damp_force_threshold={}".format(thr))
 
     def start(self, data):
+        self.is_active = True
+        self.done = False
         self.axis = ListToKDLVector(data["axis"])
         self.velocity = self.initial_velocity
 
@@ -208,10 +229,19 @@ class DampedForwardForceController(object):
             self.last_force_msg = data["atift"]
             self._updateVelocity(self.last_force_msg)
 
+        target_tf = data["target_tf"]
         current_tf = data["current_tf"]
-        Tr = PyKDL.Frame(self.axis * self.velocity)
-        print(self.velocity)
-        target_tf = current_tf * Tr
+
+        if self.is_active:
+
+            if self.done:
+                print "\n\n\n CONTROLLER STOP \n\n\n"
+                self.is_active = False
+                return self.target_tf
+
+            Tr = PyKDL.Frame(self.axis * self.velocity)
+            print(self.velocity)
+            target_tf = current_tf * Tr
 
         return target_tf
 
@@ -234,6 +264,8 @@ class SpringTouchController(object):
 
     def __init__(self, robot_name="", params_dict={}):
         self.robot_name = robot_name
+        self.is_active = False
+        self.done = False
 
         # Controller Parameters
         if params_dict == {} or params_dict == None:
@@ -266,10 +298,14 @@ class SpringTouchController(object):
         return self.params
 
     def reset(self):
+        self.is_active = False
+        self.done = False
         self.dampedforward_controller.reset()
         self.spring_controller.reset()
 
     def start(self, data):
+        self.is_active = True
+        self.done = False
         self.dampedforward_controller.start(data)
 
     def output(self, data):
@@ -277,11 +313,19 @@ class SpringTouchController(object):
             self.last_force_msg = data["atift"]
 
         current_tf = data["current_tf"]
+        target_tf = data["target_tf"]
 
-        Tr1 = self.dampedforward_controller.output(data)
-        Tr2 = self.spring_controller.output(data)
-        Tr = Tr2 * Tr1
+        if self.is_active:
 
-        target_tf = current_tf * Tr
+            if self.done:
+                print "\n\n\n CONTROLLER STOP \n\n\n"
+                self.is_active = False
+                return self.target_tf
+
+            Tr1 = self.dampedforward_controller.output(data)
+            Tr2 = self.spring_controller.output(data)
+            Tr = Tr2 * Tr1
+
+            target_tf = current_tf * Tr
 
         return target_tf
