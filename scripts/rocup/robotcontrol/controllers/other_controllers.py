@@ -46,10 +46,14 @@ class NeutralController(object):
     }
 
     DEFAULT_PARAMETERS = {
+        # @@@ add here the parameters...
+        "gain": 1.0
     }
 
     def __init__(self, robot_name="", params_dict={}):
         self.robot_name = robot_name
+        self.is_active = False
+        self.done = False
         self.params = {}
 
         # Controller Parameters
@@ -57,6 +61,10 @@ class NeutralController(object):
             params_dict = self.DEFAULT_PARAMETERS
 
         self.params = params_dict
+
+        self.gain = self._param("gain",
+                                params_dict)
+        # @@@ add here the other parameters...
 
     def _param(self, name, param_dict):
         if name in param_dict.keys():
@@ -67,21 +75,55 @@ class NeutralController(object):
             return self.params[name]
 
     def setParameters(self, params_dict=None, standard_index="default"):
-        pass
+        ''' Set the parameters stored by name in the dictionary "params_dict".'''
+        if params_dict is not None:
+            try:
+                self.gain = self._param("gain",
+                                        params_dict)
+                # @@@ add here the other parameters...
+            except Exception as e:
+                Logger.error(e)
 
     def getParameters(self):
+        ''' Returns the parameters stored by name in a dictionary.'''
         return self.params
 
     def reset(self):
+        ''' Reset the variables and deactivate the control'''
+        self.is_active = False
+        self.done = False
+        # @@@ code here ...
         pass
 
     def start(self, data):
-        pass
-
-    def update(self, msg, feedback_source=""):
+        ''' Activate the control action. Require a data dictionary with 
+        inputs values (it can be empty if no inputs values is needed 
+        for this controller).'''
+        self.is_active = True
+        self.done = False
+        # @@@ code here ...
         pass
 
     def output(self, data):
+        ''' Return the target frame. Require a data dictionary with 
+        inputs values with the current reference frame "target_tf" that 
+        will be transformed by the control action.'''
         Tr = PyKDL.Frame()
+        current_tf = data["current_tf"]
         target_tf = data["target_tf"]
+        # @@@ code here ...
+
+        if self.is_active:
+
+            if self.done:
+                print "\n\n\n CONTROLLER STOP \n\n\n"
+                self.is_active = False
+                return self.target_tf
+
+            Tr = PyKDL.Frame()  # identyty
+            target_tf = target_tf * Tr
+
+            # @@@ code here ...
+        # @@@ code here ...
+
         return target_tf
