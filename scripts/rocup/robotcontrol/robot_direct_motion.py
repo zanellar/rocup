@@ -24,6 +24,8 @@ from rocup.proxy.proxy_message import SimpleMessage, SimpleMessageProxy
 
 from rocup.robotcontrol.controllers.other_controllers import *
 
+WRIST_FT_SENSOR_POSITION = Parameters.get("WRIST_FT_SENSOR_POSITION_WRT_EEF")
+
 
 class DirectCommander(object):
 
@@ -291,14 +293,14 @@ class DirectCommander(object):
 
     def _getForceOnTool(self, twist_on_sensor):
         linear_force_on_sensor = PyKDL.Frame(TwistToKDLVector(twist_on_sensor))
-        tr_eef_fs = PyKDL.Frame(PyKDL.Vector(0, 0, 0.107))
-        tr_eef_fs.M = tr_eef_fs.M.RotX(-scipy.pi)
-        tr_tool_eef = transformations.retrieveTransform(self.listener, self.robot_name + "/tool",
-                                                        self.robot_name + "/link6", none_error=True,
-                                                        time=rospy.Time(0), print_error=True)
+        tr_link6_fs = PyKDL.Frame(PyKDL.Vector(WRIST_FT_SENSOR_POSITION[0], WRIST_FT_SENSOR_POSITION[1], WRIST_FT_SENSOR_POSITION[2]))
+        tr_link6_fs.M = tr_link6_fs.M.RotX(-scipy.pi)
+        tr_tool_link6 = transformations.retrieveTransform(self.listener, self.robot_name + "/tool",
+                                                          self.robot_name + "/link6", none_error=True,
+                                                          time=rospy.Time(0), print_error=True)
         # TODO aggiungere una tf eef (in comau coincide con link6 in shunk con finger1 (me media tra i 2))
         try:
-            tr_tool_fs = tr_tool_eef * tr_eef_fs
+            tr_tool_fs = tr_tool_link6 * tr_link6_fs
             linear_force_on_tool = tr_tool_fs * linear_force_on_sensor
             twist_on_tool = TwistFormKDLVector(linear_force_on_tool.p)
             return twist_on_tool
