@@ -27,11 +27,11 @@ class Parameters:
         "COMAU_NAME":                   "comau_smart_six",
         "GRASSHOPPER_NAME":             "grasshopper",
         "SCHUNK_NAME":                  "schunk_pg70",
-        "BONMET_NAME":                  "bonmetc60"
+        "BONMET_NAME":                  "bonmetc60",
 
         #⬢⬢⬢⬢⬢➤ Sensors
         # ... add here the sensors names
-        "WRIST_FT_SENSOR":                    "atift"
+        "WRIST_FT_SENSOR":              "atift",
         "TACTILE":                      "tactile"
 
         #⬢⬢⬢⬢⬢➤ Subtasks
@@ -92,7 +92,7 @@ class Parameters:
 
         # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ SENSORS ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
         # ... add here the sensors parametrs by name
-        "WRIST_FT_SENSOR_POSITION_WRT_EEF":  [0, 0, 0.107]  # position (x,y,z) with respect to the end-effector
+        "WRIST_FT_SENSOR_POSITION_WRT_EEF":  [0, 0, 0.107],  # position (x,y,z) with respect to the end-effector
 
         # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ SUBTASKS ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
         # ... add here the subtasks parametrs by name
