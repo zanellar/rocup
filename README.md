@@ -97,4 +97,5 @@ tmux kill-session
 - trajectory (points, time, hz) in robot_motion_state_machine 
 - integrate global_error_list in the rest of the project
 - simplify procedure to add a new robot (maybe with gui)
+- implement SensorManager
 
