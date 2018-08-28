@@ -91,11 +91,11 @@ class DirectCommander(object):
                          self.tactile_feedback_callback, queue_size=1)
 
         # Compass
-        rospy.Subscriber('/compass', String,
+        rospy.Subscriber('/compass/pose', String,
                          self.compass_feedback_callback, queue_size=1)
 
-        self.feedback_proxy = SimpleMessageProxy("{}_control_feedback".format(self.robot_name))
-        self.feedback_proxy.register(self.feedback_callback)
+        # self.feedback_proxy = SimpleMessageProxy("feedbacks_stream")
+        # self.feedback_proxy.register(self.feedback_callback)
 
     # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ CALLBACKS ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
 
@@ -110,12 +110,12 @@ class DirectCommander(object):
     def compass_feedback_callback(self, msg):
         self.feedback_data["compass"] = msg
 
-    def feedback_callback(self, msg):
-        if msg.isValid():
-            if msg.getReceiver() == "{}_control_feedback".format(self.robot_name):
-                sender = msg.getSender()
-                message = msg.getCommand()
-                self.feedback_data[sender] = message
+    # def feedback_callback(self, msg):
+    #     if msg.isValid():
+    #         if msg.getReceiver() == "feedbacks_stream":
+    #             sender = msg.getSender()
+    #             message = msg.getCommand()
+    #             self.feedback_data[sender] = message
 
     def joy_callback(self, msg):
         self.joystick.update(msg)

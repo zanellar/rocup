@@ -25,12 +25,14 @@ from superros.logger import Logger
 from superros.comm import RosNode
 from rocup.sensors.sensor_manager import SensorManager
 
+import json
+
 
 def tactile_callback(msg):
     global sensor
-    msg_str = msg
+    msg_jsonable = msg
     # msg_jsonable = transformations.TwistToList(msg) # TODO implement TwistToList
-    sensor.update(msg_str)
+    sensor.update(msg_jsonable)
 
 
 if __name__ == '__main__':

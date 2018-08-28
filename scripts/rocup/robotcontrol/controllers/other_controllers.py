@@ -33,6 +33,7 @@ import PyKDL
 import copy
 import math
 import tf
+import json
 
 
 # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
@@ -228,7 +229,7 @@ class PIDCompassController(object):
         will be transformed by the control action.'''
 
         if "compass" in data.keys():
-            self.last_compass_msg = data["compass"]
+            self.last_compass_msg = json.loads(data["compass"])
 
         current_tf = data["current_tf"]
         target_tf = data["target_tf"]
@@ -239,7 +240,7 @@ class PIDCompassController(object):
             if self.last_compass_msg is None:
                 return target_tf
 
-            err_d = self.last_compass_msg["dist"]
+            err_d = self.last_compass_msg["position"]
             angle = self.last_compass_msg["angle"]
 
             if self.done:
@@ -252,7 +253,7 @@ class PIDCompassController(object):
             y_ctrl = self.kdp * err_d[1]
             x_ctrl = self.satFunc(x_ctrl, self.sat_pos_error)
             y_ctrl = self.satFunc(y_ctrl, self.sat_pos_error)
-            Tr.p = PyKDL.Vector(x_ctrl, y_ctrl, 0.0)  # <<<<<<<<<<<< direction???
+            Tr.p = PyKDL.Vector(x_ctrl, y_ctrl, 0.0)
 
             vx = math.cos(angle)
             vy = math.sin(angle)

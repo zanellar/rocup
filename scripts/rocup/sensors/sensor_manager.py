@@ -6,6 +6,7 @@ import rospy
 import numpy as np
 import time
 import tf
+import json
 import math
 import time
 import PyKDL
@@ -38,6 +39,15 @@ class SensorManager(object):
         self.command_server.registerCallback(
             self.command_action_callback)
         self.command_server_last_message = None
+
+        # # robot inner message
+        # self.inner_message_proxy = SimpleMessageProxy(
+        #     "{}_inner_message".format(self.robot_name))
+
+    # def _sendFeedback(self, msg):
+    #     msg.setReceiver("{}_direct_commander".format(self.robot_name))
+    #     msg.setData("type", "force")
+    #     self.inner_message_proxy.send(msg)
 
     def update(self, msg):
         self.last_msg = msg

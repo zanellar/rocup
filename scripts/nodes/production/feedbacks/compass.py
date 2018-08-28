@@ -22,6 +22,7 @@ from superros.logger import Logger
 from superros.comm import RosNode
 from rocup.sensors.sensor_manager import SensorManager
 
+import json
 
 if __name__ == '__main__':
     node = RosNode("compass_manager_node")
