@@ -71,7 +71,8 @@ class DirectCommander(object):
 
         # Closed-Loop Control
         if controllers_dict is None or controllers_dict == {}:
-            controllers_dict = {"none": NeutralController()}
+            controllers_dict = {"none": NeutralController(),
+                                "compass": PIDCompassController()}
 
         self.controllers_dict = controllers_dict
         self.active_controllers = {}
@@ -86,8 +87,15 @@ class DirectCommander(object):
                          self.force_feedback_callback, queue_size=1)
 
         # Tactile
-        rospy.Subscriber('/tactile',  Float64MultiArray,
+        rospy.Subscriber('/tactile', Float64MultiArray,
                          self.tactile_feedback_callback, queue_size=1)
+
+        # Compass
+        rospy.Subscriber('/compass', String,
+                         self.compass_feedback_callback, queue_size=1)
+
+        self.feedback_proxy = SimpleMessageProxy("{}_control_feedback".format(self.robot_name))
+        self.feedback_proxy.register(self.feedback_callback)
 
     # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ CALLBACKS ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
 
@@ -98,6 +106,16 @@ class DirectCommander(object):
 
     def tactile_feedback_callback(self, msg):
         self.feedback_data["tactile"] = msg
+
+    def compass_feedback_callback(self, msg):
+        self.feedback_data["compass"] = msg
+
+    def feedback_callback(self, msg):
+        if msg.isValid():
+            if msg.getReceiver() == "{}_control_feedback".format(self.robot_name):
+                sender = msg.getSender()
+                message = msg.getCommand()
+                self.feedback_data[sender] = message
 
     def joy_callback(self, msg):
         self.joystick.update(msg)

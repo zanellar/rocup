@@ -127,3 +127,147 @@ class NeutralController(object):
         # @@@ code here ...
 
         return target_tf
+
+
+# ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
+# ▇▇▇▇▇▇▇▇▇▇▇▇   PIDCompassController   ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
+# ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
+
+
+class PIDCompassController(object):
+
+    STANDARD_INPUT = {
+    }
+
+    DEFAULT_PARAMETERS = {
+        # @@@ add here the parameters...
+        "kdp": 1.0,
+        "krp": 1.0,
+        "sat_pos_error": 1.0,
+        "sat_rot_error": 1.0
+    }
+
+    def __init__(self, robot_name="", params_dict={}):
+        self.robot_name = robot_name
+        self.is_active = False
+        self.done = False
+        self.last_compass_msg = None
+        self.params = {}
+
+        # Controller Parameters
+        if params_dict == {} or params_dict == None:
+            params_dict = self.DEFAULT_PARAMETERS
+
+        self.params = params_dict
+
+        self.kdp = self._param("kdp",
+                               params_dict)
+        self.sat_rot_error = self._param("sat_rot_error",
+                                         params_dict)
+
+        self.sat_pos_error = self._param("sat_pos_error",
+                                         params_dict)
+        self.krp = self._param("krp",
+                               params_dict)
+
+        # @@@ add here the other parameters...
+
+    def _param(self, name, param_dict):
+        if name in param_dict.keys():
+            par = param_dict[name]
+            self.params[name] = par
+            return par
+        else:
+            return self.params[name]
+
+    def setParameters(self, params_dict=None, standard_index="default"):
+        ''' Set the parameters stored by name in the dictionary "params_dict".'''
+        if params_dict is not None:
+            try:
+                self.kdp = self._param("kdp",
+                                       params_dict)
+                self.sat_rot_error = self._param("sat_rot_error",
+                                                 params_dict)
+
+                self.sat_pos_error = self._param("sat_pos_error",
+                                                 params_dict)
+                self.krp = self._param("krp",
+                                       params_dict)
+                # @@@ add here the other parameters...
+            except Exception as e:
+                Logger.error(e)
+
+    def getParameters(self):
+        ''' Returns the parameters stored by name in a dictionary.'''
+        return self.params
+
+    def reset(self):
+        ''' Reset the variables and deactivate the control'''
+        self.is_active = False
+        self.done = False
+        # @@@ code here ...
+        pass
+
+    def start(self, data):
+        ''' Activate the control action. Require a data dictionary with 
+        inputs values (it can be empty if no inputs values is needed 
+        for this controller).'''
+        self.is_active = True
+        self.done = False
+        # @@@ code here ...
+        pass
+
+    @staticmethod
+    def satFunc(x, xsat):
+        y = xsat * (1.0 / (1.0 + math.e**(-x)) - 0.5)
+        return y
+
+    def output(self, data):
+        ''' Return the target frame. Require a data dictionary with 
+        inputs values with the current reference frame "target_tf" that 
+        will be transformed by the control action.'''
+
+        if "compass" in data.keys():
+            self.last_compass_msg = data["compass"]
+
+        current_tf = data["current_tf"]
+        target_tf = data["target_tf"]
+        # @@@ code here ...
+
+        if self.is_active:
+
+            if self.last_compass_msg is None:
+                return target_tf
+
+            err_d = self.last_compass_msg["dist"]
+            angle = self.last_compass_msg["angle"]
+
+            if self.done:
+                print "\n\n\n CONTROLLER STOP \n\n\n"
+                self.is_active = False
+                return target_tf
+
+            Tr = PyKDL.Frame()
+            x_ctrl = self.kdp * err_d[0]
+            y_ctrl = self.kdp * err_d[1]
+            x_ctrl = self.satFunc(x_ctrl, self.sat_pos_error)
+            y_ctrl = self.satFunc(y_ctrl, self.sat_pos_error)
+            Tr.p = PyKDL.Vector(x_ctrl, y_ctrl, 0.0)  # <<<<<<<<<<<< direction???
+
+            vx = math.cos(angle)
+            vy = math.sin(angle)
+            v = PyKDL.Vector(vx, vy, 0.0)
+            v0 = PyKDL.Vector(1.0, 0.0, 0.0)  # <<<<<<<<<<<<<<<<<<<< target_tf.p ???
+            v_prj = PyKDL.dot(v, v0)
+            sgn_rot = 1.0 if angle >= math.pi else -1.0
+            err_v = sgn_rot * abs(v_prj - 1.0)
+            theta_ctrl = self.krp * err_v
+            theta_ctrl = self.satFunc(theta_ctrl, self.sat_rot_error)
+            # Tr.M = PyKDL.Rotation.DoRotZ(theta_ctrl)
+
+            target_tf = target_tf * Tr
+
+            # @@@ code here ...
+        # @@@ code here ...
+
+        return target_tf

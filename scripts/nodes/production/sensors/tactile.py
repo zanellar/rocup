@@ -28,7 +28,9 @@ from rocup.sensors.sensor_manager import SensorManager
 
 def tactile_callback(msg):
     global sensor
-    sensor.update(msg)
+    msg_str = msg
+    # msg_jsonable = transformations.TwistToList(msg) # TODO implement TwistToList
+    sensor.update(msg_str)
 
 
 if __name__ == '__main__':
