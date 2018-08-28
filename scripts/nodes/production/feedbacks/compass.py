@@ -24,13 +24,21 @@ from rocup.sensors.sensor_manager import SensorManager
 
 import json
 
+
+def callback(msg):
+    global sensor
+    msg_str = msg
+    sensor.update(msg_str)
+
+
 if __name__ == '__main__':
     node = RosNode("compass_manager_node")
     node.setupParameter("hz", 250)
     node.setHz(node.getParameter("hz"))
 
     sensor_name = "compass"
-    # sens = SensorManager(sensor_name)
+    sensor = SensorManager(sensor_name)
+    node.createSubscriber("/compass/pose", String, callback)
 
     try:
         while node.isActive():

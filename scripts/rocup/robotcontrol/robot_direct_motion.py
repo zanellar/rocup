@@ -94,9 +94,6 @@ class DirectCommander(object):
         rospy.Subscriber('/compass/pose', String,
                          self.compass_feedback_callback, queue_size=1)
 
-        # self.feedback_proxy = SimpleMessageProxy("feedbacks_stream")
-        # self.feedback_proxy.register(self.feedback_callback)
-
     # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ CALLBACKS ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
 
     # TODO problema: OGNI VOLTA CHE SI AGGIUNGE UN FEEDBACK OCCORRE CREARE UNA CALLBACK!!!!
@@ -109,13 +106,6 @@ class DirectCommander(object):
 
     def compass_feedback_callback(self, msg):
         self.feedback_data["compass"] = msg
-
-    # def feedback_callback(self, msg):
-    #     if msg.isValid():
-    #         if msg.getReceiver() == "feedbacks_stream":
-    #             sender = msg.getSender()
-    #             message = msg.getCommand()
-    #             self.feedback_data[sender] = message
 
     def joy_callback(self, msg):
         self.joystick.update(msg)
