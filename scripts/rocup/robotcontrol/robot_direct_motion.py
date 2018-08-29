@@ -25,6 +25,8 @@ from rocup.proxy.proxy_message import SimpleMessage, SimpleMessageProxy
 from rocup.robotcontrol.controllers.other_controllers import *
 
 WRIST_FT_SENSOR_POSITION = Parameters.get("WRIST_FT_SENSOR_POSITION_WRT_EEF")
+WRIST_FT_SENSOR_NAME = Parameters.get("WRIST_FT_SENSOR_NAME")
+WRIST_FT_SENSOR_TOPIC = Parameters.get("WRIST_FT_SENSOR_TOPIC")
 
 
 class DirectCommander(object):
@@ -82,22 +84,29 @@ class DirectCommander(object):
         self.feedback_data = {}
 
         # Force
-        rospy.Subscriber('/atift', Twist,
+        rospy.Subscriber(WRIST_FT_SENSOR_TOPIC, Twist,
                          self.force_feedback_callback, queue_size=1)
 
-        # Tactile
-        rospy.Subscriber('/tactile',  Float64MultiArray,
-                         self.tactile_feedback_callback, queue_size=1)
+        # # Tactile
+        # rospy.Subscriber('/tactile',  Float64MultiArray,
+        #                  self.tactile_feedback_callback, queue_size=1)
+
+        self.feedback_proxy = SimpleMessageProxy(name="feedbacks_stream")
+        self.feedback_proxy.register(self.feedback_callback)
 
     # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ CALLBACKS ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
 
-    # TODO problema: OGNI VOLTA CHE SI AGGIUNGE UN FEEDBACK OCCORRE CREARE UNA CALLBACK!!!!
     def force_feedback_callback(self, msg):
         msg = self._getForceOnTool(msg)
-        self.feedback_data["atift"] = msg
+        self.feedback_data[WRIST_FT_SENSOR_NAME] = msg
 
-    def tactile_feedback_callback(self, msg):
-        self.feedback_data["tactile"] = msg
+    # def tactile_feedback_callback(self, msg):
+    #     self.feedback_data["tactile"] = msg
+
+    def feedback_callback(self, msg):
+        if msg.isValid():
+            sender = msg.getSender()
+            self.feedback_data[sender] = msg
 
     def joy_callback(self, msg):
         self.joystick.update(msg)

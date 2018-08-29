@@ -21,6 +21,20 @@ import superros.transformations as transformations
 from superros.logger import Logger
 from superros.comm import RosNode
 from rocup.sensors.sensor_manager import SensorManager
+from rocup.proxy.proxy_message import SimpleMessage, SimpleMessageProxy
+
+
+def ft_callback(msg):
+    global message_proxy
+    msg_str = msg
+    message = SimpleMessage(sender="wrist_ft_sensor")
+    message.setData("fx", msg.linear.x)
+    message.setData("fy", msg.linear.y)
+    message.setData("fz", msg.linear.z)
+    message.setData("tx", msg.angular.x)
+    message.setData("ty", msg.angular.y)
+    message.setData("tz", msg.angular.z)
+    message_proxy.send(message)
 
 
 if __name__ == '__main__':
@@ -28,9 +42,8 @@ if __name__ == '__main__':
     node.setupParameter("hz", 250)
     node.setHz(node.getParameter("hz"))
 
-    sensor_name = "atift"
-    sens = SensorManager(sensor_name)
-    node.createSubscriber("/atift", Twist, sens.sensor_callback)
+    node.createSubscriber("/atift", Twist, ft_callback)
+    message_proxy = SimpleMessageProxy(name="feedbacks_stream")
 
     try:
         while node.isActive():

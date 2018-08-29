@@ -31,8 +31,8 @@ class Parameters:
 
         #⬢⬢⬢⬢⬢➤ Sensors
         # ... add here the sensors names
-        "WRIST_FT_SENSOR":              "atift",
-        "TACTILE":                      "tactile"
+        "WRIST_FT_SENSOR_NAME":              "atift",
+        "TACTILE_NAME":                      "tactile"
 
         #⬢⬢⬢⬢⬢➤ Subtasks
         # ... add here the subtasks names
@@ -92,7 +92,8 @@ class Parameters:
 
         # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ SENSORS ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
         # ... add here the sensors parametrs by name
-        "WRIST_FT_SENSOR_POSITION_WRT_EEF":  [0, 0, 0.107],  # position (x,y,z) with respect to the end-effector
+        "WRIST_FT_SENSOR_POSITION_WRT_EEF":     [0, 0, 0.107],  # position (x,y,z) with respect to the end-effector
+        "WRIST_FT_SENSOR_TOPIC":                "/atift",
 
         # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ SUBTASKS ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
         # ... add here the subtasks parametrs by name

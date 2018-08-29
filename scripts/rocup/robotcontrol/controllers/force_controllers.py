@@ -312,6 +312,16 @@ class SpringTouchController(object):
         if "atift" in data.keys():
             self.last_force_msg = data["atift"]
 
+        if "wrist_ft_sensor" in data.keys():
+            simple_message = data["wrist_ft_sensor"]
+            self.last_force_msg = Twist()
+            self.last_force_msg.linear.x = simple_message.getData("fx")
+            self.last_force_msg.linear.y = simple_message.getData("fy")
+            self.last_force_msg.linear.z = simple_message.getData("fz")
+            self.last_force_msg.angular.x = simple_message.getData("tx")
+            self.last_force_msg.angular.y = simple_message.getData("ty")
+            self.last_force_msg.angular.z = simple_message.getData("tz")
+
         current_tf = data["current_tf"]
         target_tf = data["target_tf"]
 
