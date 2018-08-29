@@ -69,6 +69,7 @@ class CustomWindow(PyQtWindow):
 
         self.node = node
         self.node.createSubscriber("/tf", tfMessage, self.tf_callback)
+        self.obj_target_pub = self.node.createPublisher("/compass/target", String)
 
         self.robot_proxy_client = CommandProxyClient(
             "{}_supervisor".format(self.robot_name))
@@ -102,6 +103,7 @@ class CustomWindow(PyQtWindow):
         self.joystick_check_box.stateChanged.connect(self.joystick)
         self.direct_button.clicked.connect(self.directMode)
         self.start_control_button.clicked.connect(self.startControl)
+        self.target_button.clicked.connect(self.updateObjTarget)
         self.clear_control_button.clicked.connect(self.clearControlList)
         self.select_control_button.clicked.connect(self.selectControl)
         self.update_controller_button.clicked.connect(
@@ -423,8 +425,14 @@ class CustomWindow(PyQtWindow):
             print("OK! Saved:{}".format(str(self.obj_save_name_value.text())))
 
 # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
-# ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇    CONTROLLERS TAB    ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
+# ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇    CONTROLLERS TAB    ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
 # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
+
+    def updateObjTarget(self):
+        target = str(self.object_box.currentText())
+        msg = String()
+        msg.data = target
+        self.obj_target_pub.publish(msg)
 
     def ctrlParamsListUpdate(self):
         list_model = QStandardItemModel(self.ctrlpar_list)
@@ -465,33 +473,11 @@ class CustomWindow(PyQtWindow):
 
     def startControl(self):
         controller_input = {}
-        #➤ force
         if "force_spring" in self._getControllersList():
             controller_input["force_spring"] = {}
-        if "force_dampedforward"in self._getControllersList():
-            controller_input["force_dampedforward"] = {
-                "axis": self.selected_axis}
-        #➤ tactile
-        if "tactile_spring" in self._getControllersList():
-            controller_input["tactile_spring"] = {}
-        if "tactile_dampedforward" in self._getControllersList():
-            controller_input["tactile_dampedforward"] = {}
-        if "wire_insertion" in self._getControllersList():
-            hole_tf = None
-            while not hole_tf:
-                try:
-                    hole_tf = node.retrieveTransform(frame_id="tf_storage_hole",
-                                                     parent_frame_id=self.robot_name + "/base_link",
-                                                     time=-1)
-                    hole_tf = transformations.KDLtoTf(hole_tf)
-                except:
-                    print("Waiting for 'tf_storage_hole'...")
+        if "compass" in self._getControllersList():
+            controller_input["compass"] = {}
 
-            if hole_tf:
-                controller_input["wire_insertion"] = {"hole_tf": hole_tf,
-                                                      "wire_angle": self.wire_angle}
-            else:
-                print("\n\n\n\nHOLE TF NOT FOUND\n\n\n\n")
         if len(self._getControllersList()) == 0:
             controller_input["none"] = {}
 
@@ -529,61 +515,25 @@ class CustomWindow(PyQtWindow):
 
     def setControlParameters(self, action="load"):
 
-        spring_force_params = {"translation_mag": float(self.translation_mag_value.text()),
-                               "rotation_mag": float(self.rotation_mag_value.text()),
-                               "thresholds": eval(str(self.force_thresholds_value.text()))}
-
-        damp_force_params = {"velocity": float(self.velocity_value.text()),
-                             "damp_force_threshold": float(self.damp_threshold_value.text()),
-                             "damp_magnitude": float(self.damp_mag_value.text())}
-
-        tactile_spring_params = {
-            "threshold": [float(self.tactile_threshold_value_0.text()), float(self.tactile_threshold_value_1.text()), float(self.tactile_threshold_value_2.text())],
-            "linear_gain": [float(self.tactile_lin_gain_value_0.text()), float(self.tactile_lin_gain_value_1.text()), float(self.tactile_lin_gain_value_2.text())],
-            "angular_gain": [float(self.tactile_ang_gain_value_0.text()), float(self.tactile_ang_gain_value_1.text()), float(self.tactile_ang_gain_value_2.text())],
-            "angular_action": self.angular_action_check_box.isChecked(),
-            "linear_action": self.linear_action_check_box.isChecked()
+        spring_force_params = {
+            "translation_mag": float(self.translation_mag_value.text()),
+            "rotation_mag": float(self.rotation_mag_value.text()),
+            "thresholds": eval(str(self.force_thresholds_value.text()))
         }
-        tactile_damp_params = {
-            "step_size": float(self.step_size_value.text()),
-            "direction_gain": float(self.direction_gain_value.text()),
-            "regulation_angular_action": self.angular_reg_action_check_box.isChecked(),
-            "regulation_linear_action": self.linear_reg_action_check_box.isChecked(),
-            "linear_regulation_gain": [float(self.lin_reg_gain_value_0.text()), float(self.lin_reg_gain_value_1.text()), float(self.lin_reg_gain_value_2.text())],
-            "angular_regulation_gain": [float(self.ang_reg_gain_value_0.text()), float(self.ang_reg_gain_value_1.text()), float(self.ang_reg_gain_value_2.text())],
-            "regulation_threshold": [float(self.regulation_threshold_value_0.text()), float(self.regulation_threshold_value_1.text()), float(self.regulation_threshold_value_2.text())],
-            "global_gain": float(self.global_gain_value.text()),
-            "direction_correction": self.correction_action_check_box.isChecked(),
-            "direction_compensation": self.compensation_action_check_box.isChecked()
-        }
-        wire_insertion_params = {
-            "step_size": float(self.in_step_size_value.text()),
-            "force_p_gain": float(self.in_force_pgain_value.text()),
-            "force_threshold": float(self.in_force_threshold_value.text()),
-            "regulation_p_gain": [float(self.in_regulation_pgain_value_0.text()), float(self.in_regulation_pgain_value_1.text()), float(self.in_regulation_pgain_value_2.text())],
-            "regulation_i_gain": [float(self.in_regulation_igain_value_0.text()), float(self.in_regulation_igain_value_1.text()), float(self.in_regulation_igain_value_2.text())],
-            "regulation_i_size": [float(self.in_regulation_isize_value_0.text()), float(self.in_regulation_isize_value_1.text()), float(self.in_regulation_isize_value_2.text())],
-            "threshold": [float(self.in_regulation_threshold_value_0.text()), float(self.in_regulation_threshold_value_1.text()), float(self.in_regulation_threshold_value_2.text())],
-            "force_projection":  self.force_projection_check_box.isChecked(),
-            "position_ball_radious":  float(self.position_ball_radious_value.text()),
-            "position_ball_offset":  float(self.position_ball_offset_value.text()),
-            "position_scaling_gain":  float(self.in_position_scaling_gain.text()),
-            "position_scaling_limits":  [float(self.in_position_scaling_limmin.text()), float(self.in_position_scaling_limmax.text())]
+
+        compass_params = {
+            "kdp": float(self.kdp_value.text()),
+            "krp": float(self.krp_value.text()),
+            "sat_pos_error": float(self.sat_pos_error_value.text()),
+            "sat_rot_error": float(self.sat_rot_error_value.text())
         }
 
         self.controller_params = {}
         #➤ force
         if "force_spring" in self._getControllersList():
             self.controller_params["force_spring"] = spring_force_params
-        if "force_dampedforward"in self._getControllersList():
-            self.controller_params["force_dampedforward"] = damp_force_params
-        #➤ tactile
-        if "tactile_spring"in self._getControllersList():
-            self.controller_params["tactile_spring"] = tactile_spring_params
-        if "tactile_dampedforward"in self._getControllersList():
-            self.controller_params["tactile_dampedforward"] = tactile_damp_params
-        if "wire_insertion"in self._getControllersList():
-            self.controller_params["wire_insertion"] = wire_insertion_params
+        if "compass" in self._getControllersList():
+            self.controller_params["compass"] = compass_params
 
         print action
         if action == "save":
@@ -596,6 +546,8 @@ class CustomWindow(PyQtWindow):
         #➤ force
         if self.spring_force_ctrl_box.isChecked():
             selected_controllers.append("force_spring")
+        if self.compass_ctrl_box.isChecked():
+            selected_controllers.append("compass")
         return selected_controllers
 
     def getAxis(self, axis_name):

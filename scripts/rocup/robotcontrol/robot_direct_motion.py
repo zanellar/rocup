@@ -71,8 +71,7 @@ class DirectCommander(object):
 
         # Closed-Loop Control
         if controllers_dict is None or controllers_dict == {}:
-            controllers_dict = {"none": NeutralController(),
-                                "compass": PIDCompassController()}
+            controllers_dict = {"none": NeutralController()}
 
         self.controllers_dict = controllers_dict
         self.active_controllers = {}

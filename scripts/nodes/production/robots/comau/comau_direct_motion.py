@@ -7,7 +7,7 @@ import rospy
 from rocup.param.global_parameters import Parameters
 from rocup.robotcontrol.robot_direct_motion import DirectCommander
 
-from rocup.robotcontrol.controllers.other_controllers import NeutralController
+from rocup.robotcontrol.controllers.other_controllers import NeutralController, PIDCompassController
 from rocup.robotcontrol.controllers.force_controllers import SpringForceController
 
 
@@ -19,7 +19,8 @@ if __name__ == '__main__':
 
     controllers_dict = {
         "none": NeutralController(),
-        "force_spring": SpringForceController()
+        "force_spring": SpringForceController(),
+        "compass": PIDCompassController()
     }
 
     cmd = DirectCommander(robot_name, controllers_dict)

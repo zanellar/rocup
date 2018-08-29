@@ -142,8 +142,8 @@ class PIDCompassController(object):
 
     DEFAULT_PARAMETERS = {
         # @@@ add here the parameters...
-        "kdp": 1.0,
-        "krp": 1.0,
+        "kdp": 0.0,
+        "krp": 0.0,
         "sat_pos_error": 1.0,
         "sat_rot_error": 1.0
     }
@@ -153,6 +153,7 @@ class PIDCompassController(object):
         self.is_active = False
         self.done = False
         self.last_compass_msg = None
+        self.target_obj = None
         self.params = {}
 
         # Controller Parameters
@@ -215,6 +216,9 @@ class PIDCompassController(object):
         for this controller).'''
         self.is_active = True
         self.done = False
+
+        # self.target_obj = data["object"]
+
         # @@@ code here ...
         pass
 
@@ -228,15 +232,23 @@ class PIDCompassController(object):
         inputs values with the current reference frame "target_tf" that 
         will be transformed by the control action.'''
 
-        if "compass" in data.keys():
-            self.last_compass_msg = json.loads(data["compass"])
-
         current_tf = data["current_tf"]
         target_tf = data["target_tf"]
+
+        if "compass" in data.keys():
+            self.last_compass_msg = json.loads(data["compass"].data)
+
+        if self.last_compass_msg is None:
+            return target_tf
+
+        # obj_message = self.last_compass_msg["object"]
+
+        # if obj_message != self.target_obj:
+        #     return target_tf
+
         # @@@ code here ...
 
         if self.is_active:
-
             if self.last_compass_msg is None:
                 return target_tf
 
@@ -244,7 +256,7 @@ class PIDCompassController(object):
             angle = self.last_compass_msg["angle"]
 
             if self.done:
-                print "\n\n\n CONTROLLER STOP \n\n\n"
+                print("\n\n\n CONTROLLER STOP \n\n\n")
                 self.is_active = False
                 return target_tf
 
@@ -260,12 +272,13 @@ class PIDCompassController(object):
             v = PyKDL.Vector(vx, vy, 0.0)
             v0 = PyKDL.Vector(1.0, 0.0, 0.0)  # <<<<<<<<<<<<<<<<<<<< target_tf.p ???
             v_prj = PyKDL.dot(v, v0)
-            sgn_rot = 1.0 if angle >= math.pi else -1.0
+            sgn_rot = 1.0 if angle < math.pi else -1.0
             err_v = sgn_rot * abs(v_prj - 1.0)
             theta_ctrl = self.krp * err_v
             theta_ctrl = self.satFunc(theta_ctrl, self.sat_rot_error)
-            # Tr.M = PyKDL.Rotation.DoRotZ(theta_ctrl)
+            Tr.M = PyKDL.Rotation.RotZ(theta_ctrl)
 
+            print(x_ctrl, y_ctrl, theta_ctrl)
             target_tf = target_tf * Tr
 
             # @@@ code here ...

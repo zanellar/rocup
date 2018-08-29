@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>970</width>
-    <height>699</height>
+    <width>972</width>
+    <height>696</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="Line" name="line">
     <property name="geometry">
      <rect>
-      <x>800</x>
+      <x>810</x>
       <y>10</y>
       <width>20</width>
-      <height>591</height>
+      <height>571</height>
      </rect>
     </property>
     <property name="orientation">
@@ -30,9 +30,9 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>620</y>
-      <width>951</width>
+      <x>10</x>
+      <y>600</y>
+      <width>941</width>
       <height>41</height>
      </rect>
     </property>
@@ -93,10 +93,10 @@
    <widget class="QWidget" name="verticalLayoutWidget_12">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>10</x>
       <y>10</y>
       <width>561</width>
-      <height>601</height>
+      <height>581</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -441,138 +441,258 @@ font-size:20px;</string>
            <x>140</x>
            <y>10</y>
            <width>381</width>
-           <height>521</height>
+           <height>511</height>
           </rect>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="Custom">
           <attribute name="title">
            <string>Parameters</string>
           </attribute>
-          <widget class="QWidget" name="verticalLayoutWidget_6">
+          <widget class="QWidget" name="verticalLayoutWidget_5">
            <property name="geometry">
             <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>371</width>
-             <height>451</height>
+             <x>10</x>
+             <y>10</y>
+             <width>361</width>
+             <height>461</height>
             </rect>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_9">
+           <layout class="QVBoxLayout" name="verticalLayout_14">
             <item>
-             <widget class="QToolBox" name="toolBox">
-              <property name="currentIndex">
-               <number>0</number>
+             <layout class="QVBoxLayout" name="verticalLayout_9">
+              <item>
+               <widget class="QToolBox" name="toolBox">
+                <property name="currentIndex">
+                 <number>1</number>
+                </property>
+                <widget class="QWidget" name="force_spring">
+                 <property name="geometry">
+                  <rect>
+                   <x>0</x>
+                   <y>0</y>
+                   <width>357</width>
+                   <height>364</height>
+                  </rect>
+                 </property>
+                 <attribute name="label">
+                  <string>Force Spring</string>
+                 </attribute>
+                 <widget class="QLineEdit" name="force_thresholds_value">
+                  <property name="geometry">
+                   <rect>
+                    <x>50</x>
+                    <y>60</y>
+                    <width>81</width>
+                    <height>25</height>
+                   </rect>
+                  </property>
+                  <property name="text">
+                   <string>[0.5, 0.5, 1]</string>
+                  </property>
+                 </widget>
+                 <widget class="QLabel" name="label_11">
+                  <property name="geometry">
+                   <rect>
+                    <x>10</x>
+                    <y>30</y>
+                    <width>31</width>
+                    <height>17</height>
+                   </rect>
+                  </property>
+                  <property name="text">
+                   <string>Rot</string>
+                  </property>
+                 </widget>
+                 <widget class="QLabel" name="label_10">
+                  <property name="geometry">
+                   <rect>
+                    <x>10</x>
+                    <y>0</y>
+                    <width>31</width>
+                    <height>17</height>
+                   </rect>
+                  </property>
+                  <property name="text">
+                   <string>Tras</string>
+                  </property>
+                 </widget>
+                 <widget class="QLineEdit" name="translation_mag_value">
+                  <property name="geometry">
+                   <rect>
+                    <x>50</x>
+                    <y>0</y>
+                    <width>81</width>
+                    <height>25</height>
+                   </rect>
+                  </property>
+                  <property name="text">
+                   <string>0.0001</string>
+                  </property>
+                 </widget>
+                 <widget class="QLineEdit" name="rotation_mag_value">
+                  <property name="geometry">
+                   <rect>
+                    <x>50</x>
+                    <y>30</y>
+                    <width>81</width>
+                    <height>25</height>
+                   </rect>
+                  </property>
+                  <property name="text">
+                   <string>0.003</string>
+                  </property>
+                 </widget>
+                 <widget class="QLabel" name="label_12">
+                  <property name="geometry">
+                   <rect>
+                    <x>10</x>
+                    <y>60</y>
+                    <width>31</width>
+                    <height>17</height>
+                   </rect>
+                  </property>
+                  <property name="text">
+                   <string>Thr</string>
+                  </property>
+                 </widget>
+                </widget>
+                <widget class="QWidget" name="compass">
+                 <property name="geometry">
+                  <rect>
+                   <x>0</x>
+                   <y>0</y>
+                   <width>357</width>
+                   <height>364</height>
+                  </rect>
+                 </property>
+                 <attribute name="label">
+                  <string>Compass</string>
+                 </attribute>
+                 <widget class="QWidget" name="verticalLayoutWidget_2">
+                  <property name="geometry">
+                   <rect>
+                    <x>20</x>
+                    <y>10</y>
+                    <width>291</width>
+                    <height>231</height>
+                   </rect>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_4">
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_9">
+                     <item>
+                      <widget class="QLabel" name="label_18">
+                       <property name="text">
+                        <string>kdp</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="kdp_value">
+                       <property name="text">
+                        <string>0.03</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_11">
+                     <item>
+                      <widget class="QLabel" name="label_17">
+                       <property name="text">
+                        <string>krp</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="krp_value">
+                       <property name="text">
+                        <string>100</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_12">
+                     <item>
+                      <widget class="QLabel" name="label_19">
+                       <property name="text">
+                        <string>Sat. Pos.</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="sat_pos_error_value">
+                       <property name="text">
+                        <string>0.0005</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_13">
+                     <item>
+                      <widget class="QLabel" name="label_20">
+                       <property name="text">
+                        <string>Sat. Rot.</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="sat_rot_error_value">
+                       <property name="text">
+                        <string>0.001</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_10">
+                     <item>
+                      <widget class="QComboBox" name="object_box">
+                       <item>
+                        <property name="text">
+                         <string>clip</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>battery_black</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="target_button">
+                       <property name="text">
+                        <string>Set Target</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </widget>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QPushButton" name="update_controller_button">
+              <property name="text">
+               <string>Load</string>
               </property>
-              <widget class="QWidget" name="page_6">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>0</y>
-                 <width>369</width>
-                 <height>418</height>
-                </rect>
-               </property>
-               <attribute name="label">
-                <string>Force Spring</string>
-               </attribute>
-               <widget class="QLineEdit" name="force_thresholds_value">
-                <property name="geometry">
-                 <rect>
-                  <x>50</x>
-                  <y>60</y>
-                  <width>81</width>
-                  <height>25</height>
-                 </rect>
-                </property>
-                <property name="text">
-                 <string>[0.5, 0.5, 1]</string>
-                </property>
-               </widget>
-               <widget class="QLabel" name="label_11">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>30</y>
-                  <width>31</width>
-                  <height>17</height>
-                 </rect>
-                </property>
-                <property name="text">
-                 <string>Rot</string>
-                </property>
-               </widget>
-               <widget class="QLabel" name="label_10">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>0</y>
-                  <width>31</width>
-                  <height>17</height>
-                 </rect>
-                </property>
-                <property name="text">
-                 <string>Tras</string>
-                </property>
-               </widget>
-               <widget class="QLineEdit" name="translation_mag_value">
-                <property name="geometry">
-                 <rect>
-                  <x>50</x>
-                  <y>0</y>
-                  <width>81</width>
-                  <height>25</height>
-                 </rect>
-                </property>
-                <property name="text">
-                 <string>0.0001</string>
-                </property>
-               </widget>
-               <widget class="QLineEdit" name="rotation_mag_value">
-                <property name="geometry">
-                 <rect>
-                  <x>50</x>
-                  <y>30</y>
-                  <width>81</width>
-                  <height>25</height>
-                 </rect>
-                </property>
-                <property name="text">
-                 <string>0.003</string>
-                </property>
-               </widget>
-               <widget class="QLabel" name="label_12">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>60</y>
-                  <width>31</width>
-                  <height>17</height>
-                 </rect>
-                </property>
-                <property name="text">
-                 <string>Thr</string>
-                </property>
-               </widget>
-              </widget>
              </widget>
             </item>
            </layout>
-          </widget>
-          <widget class="QPushButton" name="update_controller_button">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>460</y>
-             <width>371</width>
-             <height>25</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Load</string>
-           </property>
           </widget>
          </widget>
          <widget class="QWidget" name="Saved">
@@ -624,53 +744,20 @@ font-size:20px;</string>
           </widget>
          </widget>
         </widget>
-        <widget class="QWidget" name="verticalLayoutWidget_7">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>110</y>
-           <width>121</width>
-           <height>101</height>
-          </rect>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_10">
-          <item>
-           <widget class="QPushButton" name="select_control_button">
-            <property name="text">
-             <string>Select</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="clear_control_button">
-            <property name="text">
-             <string>Clear</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="start_control_button">
-            <property name="text">
-             <string>Start</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
         <widget class="QWidget" name="verticalLayoutWidget_8">
          <property name="geometry">
           <rect>
            <x>10</x>
            <y>40</y>
            <width>121</width>
-           <height>61</height>
+           <height>172</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <widget class="QLabel" name="label_15">
             <property name="text">
-             <string>Force</string>
+             <string>Controller</string>
             </property>
            </widget>
           </item>
@@ -680,6 +767,38 @@ font-size:20px;</string>
              <string>Spring</string>
             </property>
            </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="compass_ctrl_box">
+            <property name="text">
+             <string>Compass</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_10">
+            <item>
+             <widget class="QPushButton" name="select_control_button">
+              <property name="text">
+               <string>Select</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="clear_control_button">
+              <property name="text">
+               <string>Clear</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="start_control_button">
+              <property name="text">
+               <string>Start</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -691,10 +810,10 @@ font-size:20px;</string>
    <widget class="QWidget" name="verticalLayoutWidget_13">
     <property name="geometry">
      <rect>
-      <x>560</x>
-      <y>450</y>
+      <x>570</x>
+      <y>140</y>
       <width>231</width>
-      <height>161</height>
+      <height>200</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -749,7 +868,7 @@ font-size:20px;</string>
    <widget class="QWidget" name="verticalLayoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>570</x>
       <y>10</y>
       <width>231</width>
       <height>131</height>
@@ -903,7 +1022,7 @@ font-size:20px;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>970</width>
+     <width>972</width>
      <height>22</height>
     </rect>
    </property>
