@@ -49,7 +49,7 @@ class Parameters:
         elements["BONMET_NAME"] + "/TRAJECTORY_POINTS":    None,       # []
         elements["COMAU_NAME"] + "/TOOLS":              {
             "none": [0, 0, 0, 0, 0, 0, 1],
-            "gripper": [0, 0, -0.2995, 0, 0, 0, 1],
+            "gripper": [0, 0, -0.318, 0, 0, 0, 1],
             "camera": [-0.000825, -0.129085, -0.168954, 0.018076, 1.000534, 0.007385, 0.003956],
             "dynamic": [0, 0, 0, 0, 0, 0, 1],
         },

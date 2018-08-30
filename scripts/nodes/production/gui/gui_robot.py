@@ -478,6 +478,12 @@ class CustomWindow(PyQtWindow):
         if "compass" in self._getControllersList():
             controller_input["compass"] = {}
 
+            # change to camera tool
+            simple_message = SimpleMessage(command="selecttool",
+                                           receiver="{}_supervisor".format(self.robot_name))
+            simple_message.setData("tool_name", "camera")
+            self.robot_message_proxy.send(simple_message)
+
         if len(self._getControllersList()) == 0:
             controller_input["none"] = {}
 
