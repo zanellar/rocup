@@ -473,8 +473,8 @@ font-size:20px;</string>
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>357</width>
-                   <height>364</height>
+                   <width>98</width>
+                   <height>28</height>
                   </rect>
                  </property>
                  <attribute name="label">
@@ -664,7 +664,57 @@ font-size:20px;</string>
                        </item>
                        <item>
                         <property name="text">
+                         <string>glue</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>screwdriver</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>pendrive</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
                          <string>battery_black</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>battery_green</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>artifact_orange</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>artifact_white</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>artifact_black</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>artifact_metal</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>box_brown</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>box_yellow</string>
                         </property>
                        </item>
                       </widget>

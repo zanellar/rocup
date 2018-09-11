@@ -8,12 +8,13 @@ import os
 import cv2
 from cv_bridge import CvBridge, CvBridgeError
 import cv_bridge
+import json
 import numpy as np
 import PyKDL
 
 # DA SPOSTARE
 import message_filters
-from std_msgs.msg import Float64MultiArray, Int32
+from std_msgs.msg import Float64MultiArray, Int32, String
 from sensor_msgs.msg import JointState, Image, CompressedImage, JointState
 from geometry_msgs.msg import Twist, Pose
 import datetime
@@ -38,12 +39,25 @@ node.setupParameter("default_image_format", 'jpg')
 node.setupParameter("default_image_padding", 5)
 
 print("Dataset: {}".format(timestamp))
-
+classes_dict = {"artifact_orange": 0,
+                "artifact_black": 1,
+                "artifact_metal": 2,
+                "artifact_white": 3,
+                "battery_black": 4,
+                "battery_green": 5,
+                "box_brown": 6,
+                "box_yellow": 7,
+                "clip": 8,
+                "glue": 9,
+                "pendrive": 10,
+                "screwdriver": 11
+                }
 
 topic_map = {
     # '/matrix_tf_sequencer/moving_flag': eval("Int32"),
     # '/matrix_tf_sequencer/tool_pose': eval("Pose"),
-    '/comau_smart_six/tool': eval("Pose"),
+    '/compass/pose': eval("String"),
+    # '/compass/target': eval("String"),
     # '/usb_cam/image_raw/compressed': eval('CompressedImage')
     '/usb_cam_1/image_raw/compressed': eval('CompressedImage')
     #'/darknet_rgb_detector/predictions': eval('Float64MultiArray')
@@ -102,6 +116,19 @@ class DataManager():
                     msg.orientation.z,
                     msg.orientation.w
                 ]).T
+        if data_type == String:
+            if msg is None:
+                return np.array([-99999, -99999, -99999, -99999])
+            else:
+
+                msg_dict = json.loads(msg.data)
+                res = np.array([float(msg_dict["position"][0]),
+                                float(msg_dict["position"][1]),
+                                float(msg_dict["angle"]),
+                                classes_dict[str(msg_dict["object"])]
+                                ])
+                print("@@@@@@@@@@@@@@@@@", res)
+                return res
         if data_type == JointState:
             if msg is None:
                 msg = JointState()
@@ -221,6 +248,8 @@ CV_BRIDGE = CvBridge()
 output_path = os.path.join(
     node.getParameter("output_path"),
     node.getParameter("dataset_name")
+
+
 )
 data_manager = DataManager(output_path)
 

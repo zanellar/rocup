@@ -10,7 +10,7 @@
     <!--Robot ID Names -->
     <param name="COMAU_NAME" value="$(arg robot_name)"/>
     <!-- Trajectories Time -->
-    <param name="$(arg robot_name)/TRAJECTORY_TIME" value="15"/>
+    <param name="$(arg robot_name)/TRAJECTORY_TIME" value="10"/>
     <!-- Nodes Frequency  -->
     <param name="$(arg robot_name)/NODE_FREQUENCY" value="300"/>
     <!-- MONGODB -->

@@ -23,7 +23,7 @@ Hg_open = "\033[92m\033[1m\033[4m"
 Hr_open = "\033[91m\033[1m\033[4m"
 H_close = "\033[0m"
 
-STANDARD_HEIGHT = -0.41  # [m]
+STANDARD_HEIGHT = -0.36   # [m]
 ROBOT_NAME = "comau_smart_six"
 
 # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
@@ -98,8 +98,9 @@ def getFrame(frame_id, parent_id="world"):
 
 
 def Trigger(data=None):
-    global is_task_active
+    global is_task_active, is_done, target_tf
     is_task_active = True
+    target_tf = None
     is_done = False
 
 # ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇
@@ -110,7 +111,7 @@ if __name__ == '__main__':
     #⬢⬢⬢⬢⬢➤ NODE
     node = RosNode("subtask_target")
 
-    node.setupParameter("hz", 10)  #
+    node.setupParameter("hz", 50)  #
     node.setHz(node.getParameter("hz"))
 
     proxy_server = ConnectionsScanProxyServer()
@@ -138,10 +139,14 @@ if __name__ == '__main__':
                 tool_tf.M.DoRotX(math.pi)
                 tool_tf.M.DoRotZ(math.pi)
                 tool_tf.p[2] = STANDARD_HEIGHT
-
-                tool_tf = tool_tf * PyKDL.Frame(PyKDL.Vector(0, 0.03, 0))  # @@@@@@@@@@@@@@@@@@
-
+                tool_tf = tool_tf * PyKDL.Frame(PyKDL.Vector(0, 0.01, 0))  # @@@@@@@@@@@@@@@@@@
                 target_tf = tool_tf
+
+                # Tr = PyKDL.Frame()
+                # Tr.M.DoRotX(math.pi)
+                # Tr.M.DoRotZ(math.pi)
+                # target_tf = tool_tf * Tr
+                # target_tf.p[2] = STANDARD_HEIGHT
 
                 is_done = True
         node.tick()

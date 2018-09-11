@@ -267,13 +267,25 @@ class PIDCompassController(object):
             y_ctrl = self.satFunc(y_ctrl, self.sat_pos_error)
             Tr.p = PyKDL.Vector(x_ctrl, y_ctrl, 0.0)
 
+            direction_flg = False
+
+            if direction_flg:
+                v0 = PyKDL.Vector(1.0, 0.0, 0.0)
+            else:
+                v0 = PyKDL.Vector(0.0, 1.0, 0.0)
             vx = math.cos(angle)
             vy = math.sin(angle)
             v = PyKDL.Vector(vx, vy, 0.0)
-            v0 = PyKDL.Vector(1.0, 0.0, 0.0)  # <<<<<<<<<<<<<<<<<<<< target_tf.p ???
             v_prj = PyKDL.dot(v, v0)
-            sgn_rot = 1.0 if angle < math.pi else -1.0
-            err_v = sgn_rot * abs(v_prj - 1.0)
+
+            if direction_flg:
+                sgn_rot = 1.0 if angle < math.pi else -1.0
+                err_v = sgn_rot * abs(v_prj - 1.0)
+            else:
+                positive_rotation = (angle < math.pi / 2 and angle > 0) or (angle < math.pi * 3 / 2 and angle >= math.pi)
+                sgn_rot = 1.0 if positive_rotation else -1.0
+                err_v = sgn_rot * abs(v_prj)
+
             theta_ctrl = self.krp * err_v
             theta_ctrl = self.satFunc(theta_ctrl, self.sat_rot_error)
             Tr.M = PyKDL.Rotation.RotZ(theta_ctrl)
